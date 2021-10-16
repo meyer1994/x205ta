@@ -10,15 +10,15 @@ to get it done in 2021.
 
 ## Table of contents
 
-- [Introduction](#introduction)
-- [Getting started](#getting_started)
-- [Pre install](#pre_install)
-  - [bootia32.efi](#bootia32.efi)
-  - [Booting USB](#booting_usb)
+- [Getting started](#getting-started)
+- [Pre install](#pre-install)
+  - [bootia32.efi](#bootia32efi)
+  - [Booting USB](#booting-usb)
 - [Install](#install)
-- [Post install](#post_install)
-  - [Install grub](#install_grub)
-  - [Generate `grub.cfg`](#generate_grub.cfg)
+- [Post install](#post-install)
+  - [Install grub](#install-grub)
+  - [Generate `grub.cfg`](#generate-grubcfg)
+  - [Audio](#audio)
 - [Thanks](#thanks)
 
 ## Getting started
@@ -30,7 +30,8 @@ You will need:
 - Arch Linux [ISO][2]
 
 Older images did not have WIFI or sound working out of the box. However, newer
-images are working correctly. There are still some [quirks][8] to deal, however.
+images are working correctly. There are still some [quirks][8] to deal,
+however.
 
 ## Pre install
 
@@ -191,11 +192,17 @@ Generating grub configuration file
 done
 ```
 
-fin.
+### Audio
+
+Audio was a known issue with this machine. However, it seems to have been
+resolved in newer linux kernel versions. To make it work, I just installed
+`pulseaudio` and rebooted the computer.
+
+```sh
+$ pacman -S pulseaudio
+```
 
 ## Thanks
-
-Thanks to the community:
 
 - ifranali's [blog][6]: the main reference for this
 - Arch Wiki X205TA [page][5]: gathering lots of info
@@ -203,10 +210,9 @@ Thanks to the community:
 2016
 - [Myself][10]: for making a question in 2016, which I forgot, and leading me
 back to ifranali's blog
-- [Web Archive][11]: for having a snapshot of ifranali's blog
+- [Wayback Machine][11]: for having a snapshot of ifranali's blog
 - avakyeramian's [repo][8]: for having some fixes to problems I did not even
 know existed
-
 
 [1]: https://archlinux.org/
 [2]: https://archlinux.org/download/
@@ -218,3 +224,4 @@ know existed
 [8]: https://web.archive.org/web/20211016142109/https://github.com/avakyeramian/Asus_X205TA_Debian_Fix
 [9]: https://wiki.archlinux.org/title/Chroot
 [10]: https://web.archive.org/web/20211016143503/https://superuser.com/questions/1071080/usb-does-not-boot-when-trying-to-install-linux-on-my-asus-eeebook-x205ta
+[11]: https://web.archive.org/
