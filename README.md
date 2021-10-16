@@ -4,6 +4,28 @@
 
 Arch linux installation instructions for Asus X205TA
 
+```
+                   -`                    meyer@x205ta
+                  .o+`                   ----------
+                 `ooo/                   OS: Arch Linux x86_64
+                `+oooo:                  Host: X205TAW 1.0
+               `+oooooo:                 Kernel: 5.14.12-arch1-1
+               -+oooooo+:                Uptime: 38 mins
+             `/:-:++oooo+:               Packages: 455 (pacman)
+            `/++++/+++++++:              Shell: bash 5.1.8
+           `/++++++++++++++:             Resolution: 1366x768
+          `/+++ooooooooooooo/`           WM: sway
+         ./ooosssso++osssssso+`          Theme: Arc-Dark [GTK2/3]
+        .oossssso-````/ossssss+`         Icons: Arc [GTK2/3]
+       -osssssso.      :ssssssso.        Terminal: alacritty
+      :osssssss/        osssso+++.       Terminal Font: Hack
+     /ossssssss/        +ssssooo/-       CPU: Intel Atom Z3735F (4) @ 1.832GHz
+   `/ossssso+/:-        -:/+osssso+-     GPU: Intel Atom Processor Z36xxx/Z37xxx Series Graphics & Display
+  `+sso+:-`                 `.-/+oso:    Memory: 220MiB / 1906MiB
+ `++:.                           `-/+/
+ .`                                 `/
+```
+
 This is supposed to be a tutorial, in the most straightforward way possible, on
 how to install [Arch Linux][1] on an Asus X205TA. This was quite a saga for me
 to get it done in 2021.
