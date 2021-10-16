@@ -1,12 +1,25 @@
 # X205TA
 
-Arch linux installation instructions for Asus X205TA
+[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
-## Introduction
+Arch linux installation instructions for Asus X205TA
 
 This is supposed to be a tutorial, in the most straightforward way possible, on
 how to install [Arch Linux][1] on an Asus X205TA. This was quite a saga for me
 to get it done in 2021.
+
+## Table of contents
+
+- [Introduction](#introduction)
+- [Getting started](#getting_started)
+- [Pre install](#pre_install)
+  - [bootia32.efi](#bootia32.efi)
+  - [Booting USB](#booting_usb)
+- [Install](#install)
+- [Post install](#post_install)
+  - [Install grub](#install_grub)
+  - [Generate `grub.cfg`](#generate_grub.cfg)
+- [Thanks](#thanks)
 
 ## Getting started
 
@@ -15,19 +28,13 @@ You will need:
 - USB flash drive
 - Another linux machine
 - Arch Linux [ISO][2]
-- This repo
 
-```sh
-$ git clone https://github.com/meyer1994/x205ta
-$ cd x205ta
-```
+Older images did not have WIFI or sound working out of the box. However, newer
+images are working correctly. There are still some [quirks][8] to deal, however.
 
-Older Arch Linux images did not have WIFI working out of the box for this
-machine. This tutorial assumes you are using a newer image with WIFI working.
+## Pre install
 
-## Creating bootable media
-
-### Creating `bootia32.efi`
+### `bootia32.efi`
 
 First of all, you will need to create a `bootia32.efi` for yourself. You'll
 neeed a new [`grub.cfg`](./grub.cfg) file. Luckily, I have one, copied from
@@ -35,21 +42,13 @@ this [blog][3] and it is included in this repo.
 
 You **MUST** change the `ARCH_YYYYMM` label in the `grub.cfg` file to match the
 ISO you have just downloaded. To get the correct label for the ISO you just
-downloaded you can execute the following (line breaks added to output for
-easier reading):
+downloaded you can execute the following (line breaks added):
 
 ```sh
 $ file archlinux-2021.10.01-x86_64.iso
 archlinux-2021.10.01-x86_64.iso:
     ISO 9660 CD-ROM filesystem data (DOS/MBR boot sector)
     'ARCH_202110' (bootable)
-```
-
-In the example above, you **MUST** use the `ARCH_202110` label on your `grub.cfg`
-file. You can replace the label using `sed`.
-
-```sh
-$ sed -i 's/ARCH_[0-9]\+/ARCH_202110/' grub.cfg
 ```
 
 After you have updated the `grub.cfg` file to match your ISO, you can execute
@@ -69,7 +68,7 @@ $ grub-mkstandalone -v \
 
 This will generate a `bootia32.efi` file on your current directory.
 
-### Creating bootable USB
+### Booting USB
 
 This step is very easy. We are just going to copy all files from the ISO to a
 USB flash drive and add our `bootia32.efi` file. First, format it using `vfat`
@@ -112,7 +111,10 @@ $ umount /tmp/usb
 You have a bootable USB!!
 
 
-## Installing arch
+## Install
+
+To boot into the USB media just press `ESC`, or `F2` multiple times while the
+computer is booting. Make sure you have "secure boot" deactivated in the BIOS.
 
 Newer versions of arch linux installation medias come with a very handy script
 that helps with the installation process. First, connect to the internet using
@@ -150,14 +152,13 @@ Enter a valid timezone: Brazil/East
 Would you like automatic time synchronization: y
 ```
 
-Wait for it to finish and `chroot` into the system:
+Wait for it to finish but do not restart.
 
-```sh
-$ arch-chroot /mnt
-```
+## Post install
 
-If it is not mounted, mount the partitions first (the commands order matters
-here):
+After you finished the installation process, while still in using the bootable
+USB, [`chroot`][9] into the system. Usually, the system will be mounted in
+`/mnt`. If not, mount them first and then `chroot` into it:
 
 ```sh
 $ mount /dev/mmcblk2p2 /mnt
@@ -165,7 +166,9 @@ $ mount /dev/mmcblk2p1 /mnt/boot
 $ arch-chroot /mnt
 ```
 
-We need to install grub correctly.
+### Install grub
+
+We need to install a correct version of grub into this system.
 
 ```sh
 $ grub-install \
@@ -174,8 +177,10 @@ $ grub-install \
     --bootloader-id=grub_uefi \
     -–recheck
 Installing for i386-efi partition
-Installation finished. No error reported
+Installation finished. No errors reported
 ```
+
+### Generate `grub.cfg`
 
 And generate its configuration:
 
@@ -192,9 +197,15 @@ fin.
 
 Thanks to the community:
 
-- ifranali [blog][6]
-- Arch Wiki X205TA [page][5]
-- savagezen's [repo][7]
+- ifranali's [blog][6]: the main reference for this
+- Arch Wiki X205TA [page][5]: gathering lots of info
+- savagezen's [repo][7]: used by me the first time I got this working, back in
+2016
+- [Myself][10]: for making a question in 2016, which I forgot, and leading me
+back to ifranali's blog
+- [Web Archive][11]: for having a snapshot of ifranali's blog
+- avakyeramian's [repo][8]: for having some fixes to problems I did not even
+know existed
 
 
 [1]: https://archlinux.org/
@@ -203,4 +214,7 @@ Thanks to the community:
 [4]: https://wiki.archlinux.org/title/Iwd#iwctl
 [5]: https://wiki.archlinux.org/title/ASUS_x205ta
 [6]: https://web.archive.org/web/20200803060417/https://ifranali.blogspot.com/2015/04/installing-arch-linux-on-asus-x205ta.html
-[7]: https://github.com/savagezen/x205ta
+[7]: https://web.archive.org/web/20211016143553/https://github.com/savagezen/x205ta
+[8]: https://web.archive.org/web/20211016142109/https://github.com/avakyeramian/Asus_X205TA_Debian_Fix
+[9]: https://wiki.archlinux.org/title/Chroot
+[10]: https://web.archive.org/web/20211016143503/https://superuser.com/questions/1071080/usb-does-not-boot-when-trying-to-install-linux-on-my-asus-eeebook-x205ta
